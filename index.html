@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Oil Corporation - Administrative Approval Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header-section">
+            <div class="logo-container">
+                <i class="fas fa-oil-well" style="font-size: 60px; color: white; margin-bottom: 15px;"></i>
+            </div>
+            <h1>Administrative Approval Generator</h1>
+            <p class="subtitle">Generate administrative approvals for DU replacements and asset management</p>
+        </header>
+
+        <div id="warning-message" class="warning-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="warning-text">Warning: Number of DU replacements and assets don't match!</span>
+        </div>
+
+        <form id="approvalForm" class="approval-form">
+            <!-- Basic Information Section -->
+            <section class="form-section basic-info">
+                <h2>Basic Information</h2>
+                
+                <div class="form-group">
+                    <label for="refNumber">Reference Number:</label>
+                    <input type="text" id="refNumber" name="refNumber" placeholder="e.g., IOCL/KOL/2026/001" 
+                           title="Enter the reference number for this approval document">
+                    <small class="sample-text">Sample: IOCL/KOL/2026/001</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" title="Select the approval date">
+                    <small class="sample-text">Sample: 22/01/2026</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" id="customerName" name="customerName" placeholder="Enter customer name" 
+                           title="Enter the full name of the customer">
+                    <small class="sample-text">Sample: CSTC PAIKPARA</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerCode">Customer Code:</label>
+                    <input type="text" id="customerCode" name="customerCode" placeholder="Enter customer code" 
+                           title="Enter the customer code">
+                    <small class="sample-text">Sample: 507311</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="divisionalOffice">Divisional Office:</label>
+                    <input type="text" id="divisionalOffice" name="divisionalOffice" placeholder="Enter divisional office" 
+                           title="Enter the divisional office name">
+                    <small class="sample-text">Sample: Kolkata Divisional Office</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="district">District:</label>
+                    <input type="text" id="district" name="district" placeholder="Enter district" 
+                           title="Enter the district name">
+                    <small class="sample-text">Sample: Kolkata, West Bengal</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="monthlyRequirement">Monthly Requirement (KL):</label>
+                    <input type="number" id="monthlyRequirement" name="monthlyRequirement" placeholder="Enter monthly requirement" 
+                           title="Enter monthly requirement in kiloliters">
+                    <small class="sample-text">Sample: 48 KL</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="productType">Product Type:</label>
+                    <select id="productType" name="productType" title="Select the product type">
+                        <option value="">Select product type</option>
+                        <option value="HSD">HSD (High Speed Diesel)</option>
+                        <option value="MS">MS (Motor Spirit)</option>
+                        <option value="ATF">ATF (Aviation Turbine Fuel)</option>
+                        <option value="SKO">SKO (Superior Kerosene Oil)</option>
+                        <option value="LPG">LPG (Liquefied Petroleum Gas)</option>
+                        <option value="FO">FO (Furnace Oil)</option>
+                    </select>
+                    <small class="sample-text">Sample: HSD</small>
+                </div>
+            </section>
+
+            <!-- Tank Information Section -->
+            <section class="form-section tank-info">
+                <h2>Existing Facilities</h2>
+                
+                <div class="form-group">
+                    <label for="tankDetails">Tank Details:</label>
+                    <textarea id="tankDetails" name="tankDetails" rows="3" placeholder="Enter tank specifications" 
+                              title="Enter the tank specifications and capacity"></textarea>
+                    <small class="sample-text">Sample: 2 X 20 KL HSD UG TANKS</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="duCount">Number of Existing DUs:</label>
+                    <input type="number" id="duCount" name="duCount" min="1" placeholder="Enter number of DUs" 
+                           title="Enter the number of existing dispensing units">
+                    <small class="sample-text">Sample: 02 HSD DU</small>
+                </div>
+            </section>
+
+            <!-- DU Replacement Section -->
+            <section class="form-section du-replacement">
+                <h2>DU Replacement Details</h2>
+                <p class="section-description">Add details of DUs to be replaced (minimum 1 required)</p>
+                
+                <div id="duContainer">
+                    <div class="du-item">
+                        <h4>DU #1</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>DU Model:</label>
+                                <input type="text" name="duModel[]" placeholder="Enter DU model" 
+                                       title="Enter the DU model number">
+                                <small class="sample-text">Sample: MIDCO Model No: 172</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Serial Number:</label>
+                                <input type="text" name="duSerial[]" placeholder="Enter serial number" 
+                                       title="Enter the DU serial number">
+                                <small class="sample-text">Sample: 0H1323</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Issue Description:</label>
+                                <textarea name="duIssue[]" rows="2" placeholder="Describe the issue with this DU" 
+                                          title="Describe why this DU needs replacement"></textarea>
+                                <small class="sample-text">Sample: Old and frequently goes out of order, requires frequent maintenance</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-remove" onclick="removeDU(this)" style="display: none;">Remove DU</button>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn-add" onclick="addDU()">
+                    <i class="fas fa-plus"></i> Add Another DU
+                </button>
+            </section>
+
+            <!-- Asset Replacement Section -->
+            <section class="form-section asset-replacement">
+                <h2>Asset Replacement Details</h2>
+                <p class="section-description">Add details of assets to be replaced (minimum 1 required)</p>
+                
+                <div id="assetContainer">
+                    <div class="asset-item">
+                        <h4>Asset #1</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Asset Serial Number:</label>
+                                <input type="text" name="assetSerial[]" placeholder="Enter asset serial number" 
+                                       title="Enter the asset serial number">
+                                <small class="sample-text">Sample: Asset-001</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Capitalization Date:</label>
+                                <input type="date" name="assetCapDate[]" title="Select the capitalization date">
+                                <small class="sample-text">Sample: 15/03/2020</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Asset Name:</label>
+                                <input type="text" name="assetName[]" placeholder="Enter asset name" 
+                                       title="Enter the asset name">
+                                <small class="sample-text">Sample: HSD DU Equipment</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Acquisition Value (Rs.):</label>
+                                <input type="number" name="assetAcqValue[]" placeholder="Enter acquisition value" 
+                                       title="Enter the acquisition value in rupees">
+                                <small class="sample-text">Sample: 250000</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Book Value (Rs.):</label>
+                                <input type="number" name="assetBookValue[]" placeholder="Enter book value" 
+                                       title="Enter the current book value in rupees">
+                                <small class="sample-text">Sample: 125000</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-remove" onclick="removeAsset(this)" style="display: none;">Remove Asset</button>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn-add" onclick="addAsset()">
+                    <i class="fas fa-plus"></i> Add Another Asset
+                </button>
+            </section>
+
+            <!-- Proposal Details Section -->
+            <section class="form-section proposal-details">
+                <h2>Proposal Details</h2>
+                
+                <div class="form-group">
+                    <label for="replacementReason">Replacement Reason:</label>
+                    <textarea id="replacementReason" name="replacementReason" rows="4" placeholder="Enter detailed replacement reason" 
+                              title="Provide detailed justification for replacement"></textarea>
+                    <small class="sample-text">Sample: Old DU requires frequent maintenance causing inconvenience to customer</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="newEquipment">New Equipment Details:</label>
+                    <textarea id="newEquipment" name="newEquipment" rows="3" placeholder="Enter new equipment specifications" 
+                              title="Describe the new equipment to be installed"></textarea>
+                    <small class="sample-text">Sample: New ERA DU with advanced features and better reliability</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="benefits">Expected Benefits:</label>
+                    <textarea id="benefits" name="benefits" rows="3" placeholder="Enter expected benefits" 
+                              title="Describe the benefits of this replacement"></textarea>
+                    <small class="sample-text">Sample: Improved reliability, reduced maintenance, better customer satisfaction</small>
+                </div>
+            </section>
+
+            <!-- Submit Section -->
+            <section class="form-section submit-section">
+                <button type="submit" class="btn-generate">
+                    <i class="fas fa-file-word"></i> Generate Word Document
+                </button>
+            </section>
+        </form>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
